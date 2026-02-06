@@ -18,7 +18,7 @@ public class CreateUserUseCase {
             email,
             role
         );
-        
+
         return userRepository.save(user);
     }
 
