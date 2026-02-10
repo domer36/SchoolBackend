@@ -3,12 +3,14 @@ package com.school.backend.infrastructure.controller;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.school.backend.application.usecase.CreateUserUseCase;
+import com.school.backend.application.usecase.GetUserByIdUseCase;
 import com.school.backend.application.usecase.GetUsersUseCase;
 import com.school.backend.domain.model.User;
 import com.school.backend.infrastructure.dto.user.CreateUserRequest;
@@ -20,13 +22,16 @@ public class UserController {
 
     private final CreateUserUseCase createUserUseCase;
     private final GetUsersUseCase getUsersUseCase;
+    private final GetUserByIdUseCase getUserByIdUseCase;
 
     public UserController(
         CreateUserUseCase createUserUseCase,
-        GetUsersUseCase getUsersUseCase
+        GetUsersUseCase getUsersUseCase,
+        GetUserByIdUseCase getUserByIdUseCase
     ) {
         this.createUserUseCase = createUserUseCase;
         this.getUsersUseCase = getUsersUseCase;
+        this.getUserByIdUseCase = getUserByIdUseCase;
     }
 
     @PostMapping
@@ -56,5 +61,11 @@ public class UserController {
                 user.getRole()
             ))
             .toList();
+    }
+
+    @GetMapping("/{id}")
+    public UserResponse getById(@PathVariable Long id) {
+        User user = getUserByIdUseCase.execute(id);
+        return new UserResponse(user.getId(), user.getName(), user.getEmail(), user.getRole());
     }
 }

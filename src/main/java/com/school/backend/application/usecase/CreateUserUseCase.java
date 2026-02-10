@@ -2,6 +2,7 @@ package com.school.backend.application.usecase;
 
 import com.school.backend.application.port.UserRepository;
 import com.school.backend.domain.exception.BusinessException;
+import com.school.backend.domain.exception.ConflictException;
 import com.school.backend.domain.model.User;
 
 public class CreateUserUseCase {
@@ -16,6 +17,10 @@ public class CreateUserUseCase {
 
         if (email == null || email.isEmpty()) {
             throw new BusinessException("Email is required");
+        }
+
+        if (userRepository.existsByEmail(email)) {
+            throw new ConflictException("Email already exists");
         }
         
         User user = new User(

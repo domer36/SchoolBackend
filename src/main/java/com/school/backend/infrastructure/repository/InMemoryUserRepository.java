@@ -2,6 +2,7 @@ package com.school.backend.infrastructure.repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Repository;
 
@@ -28,5 +29,22 @@ public class InMemoryUserRepository implements UserRepository {
     @Override
     public List<User> findAll() {
         return users;
+    }
+
+    @Override
+    public Optional<User> findByEmail(String email) {
+        return users.stream()
+            .filter(user -> user.getEmail().equals(email))
+            .findFirst();
+    }
+
+    @Override
+    public Optional<User> findById(Long id) {
+        throw new UnsupportedOperationException("Unimplemented method 'findById'");
+    }
+
+    @Override
+    public boolean existsByEmail(String email) {
+        throw new UnsupportedOperationException("Unimplemented method 'existsByEmail'");
     }
 }

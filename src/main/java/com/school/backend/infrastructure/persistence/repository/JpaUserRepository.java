@@ -1,6 +1,7 @@
 package com.school.backend.infrastructure.persistence.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
@@ -47,5 +48,22 @@ public class JpaUserRepository implements UserRepository {
                     entity.getRole()
             ))
             .toList();
+    }
+
+    @Override
+    public Optional<User> findByEmail(String email) {
+        return springDataUserRepository.findByEmail(email)
+                .map(e -> new User(e.getId(), e.getName(), e.getEmail(), e.getRole()));
+    }
+
+    @Override
+    public Optional<User> findById(Long id) {
+        return springDataUserRepository.findById(id)
+                .map(e -> new User(e.getId(), e.getName(), e.getEmail(), e.getRole()));
+    }
+
+    @Override
+    public boolean existsByEmail(String email) {
+        return springDataUserRepository.existsByEmail(email);
     }
 }
