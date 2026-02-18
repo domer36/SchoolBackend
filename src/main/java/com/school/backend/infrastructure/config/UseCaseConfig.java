@@ -10,6 +10,8 @@ import com.school.backend.application.usecase.GetUsersUseCase;
 import com.school.backend.infrastructure.persistence.repository.GroupJpaRepository;
 import com.school.backend.infrastructure.persistence.repository.StudentJpaRepository;
 import com.school.backend.infrastructure.persistence.repository.TeacherJpaRepository;
+import com.school.backend.infrastructure.security.JwtAuthenticationFilter;
+import com.school.backend.infrastructure.security.JwtService;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -49,5 +51,10 @@ public class UseCaseConfig {
     @Bean
     public CreateStudentUseCase createStudentUseCase(StudentJpaRepository studentRepository) {
         return new CreateStudentUseCase(studentRepository);
+    }
+
+    @Bean
+    public JwtAuthenticationFilter jwtAuthenticationFilter(JwtService jwtService) {
+        return new JwtAuthenticationFilter(jwtService);
     }
 }
