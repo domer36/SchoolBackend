@@ -24,6 +24,7 @@ public class JpaUserRepository implements UserRepository {
          UserEntity entity = new UserEntity(
                 user.getName(),
                 user.getEmail(),
+                user.getPassword(),
                 user.getRole()
         );
 
@@ -33,6 +34,7 @@ public class JpaUserRepository implements UserRepository {
                 saved.getId(),
                 saved.getName(),
                 saved.getEmail(),
+                saved.getPassword(),
                 saved.getRole()
         );
     }
@@ -45,6 +47,7 @@ public class JpaUserRepository implements UserRepository {
                     entity.getId(),
                     entity.getName(),
                     entity.getEmail(),
+                    entity.getPassword(),
                     entity.getRole()
             ))
             .toList();
@@ -53,13 +56,13 @@ public class JpaUserRepository implements UserRepository {
     @Override
     public Optional<User> findByEmail(String email) {
         return springDataUserRepository.findByEmail(email)
-                .map(e -> new User(e.getId(), e.getName(), e.getEmail(), e.getRole()));
+                .map(e -> new User(e.getId(), e.getName(), e.getEmail(), e.getPassword(), e.getRole()));
     }
 
     @Override
     public Optional<User> findById(Long id) {
         return springDataUserRepository.findById(id)
-                .map(e -> new User(e.getId(), e.getName(), e.getEmail(), e.getRole()));
+                .map(e -> new User(e.getId(), e.getName(), e.getEmail(), e.getPassword(), e.getRole()));
     }
 
     @Override

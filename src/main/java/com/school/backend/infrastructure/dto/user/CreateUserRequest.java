@@ -3,6 +3,7 @@ package com.school.backend.infrastructure.dto.user;
 public class CreateUserRequest {
     private String name;
     private String email;
+    private String password;
     private String role;
     
     public String getName() {
@@ -17,6 +18,11 @@ public class CreateUserRequest {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    public String getPassword() {
+        return password;
+    }
+    
     public String getRole() {
         return role;
     }

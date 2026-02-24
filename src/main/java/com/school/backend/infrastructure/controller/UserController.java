@@ -39,6 +39,7 @@ public class UserController {
         User user = createUserUseCase.execute(
             request.getName(),
             request.getEmail(),
+            request.getPassword(),
             request.getRole()
         );
 

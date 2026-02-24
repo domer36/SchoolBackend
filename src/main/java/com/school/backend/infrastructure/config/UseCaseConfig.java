@@ -15,13 +15,14 @@ import com.school.backend.infrastructure.security.JwtService;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 public class UseCaseConfig {
 
     @Bean
-    public CreateUserUseCase createUserUseCase(UserRepository userRepository) {
-        return new CreateUserUseCase(userRepository);
+    public CreateUserUseCase createUserUseCase(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+        return new CreateUserUseCase(userRepository, passwordEncoder);
     }
 
     @Bean

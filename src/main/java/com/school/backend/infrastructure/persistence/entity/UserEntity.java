@@ -20,14 +20,19 @@ public class UserEntity {
     @Column(nullable = false, unique = true)
     private String email;
 
+    @Column(nullable = false)
+    private String password;
+
+    @Column(nullable = false)
     private String role;
 
     public UserEntity() {
     }
 
-    public UserEntity(String name, String email, String role) {
+    public UserEntity(String name, String email, String password, String role) {
         this.name = name;
         this.email = email;
+        this.password = password;
         this.role = role;
     }
 
@@ -41,6 +46,10 @@ public class UserEntity {
 
     public String getEmail() {
         return email;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     public String getRole() {

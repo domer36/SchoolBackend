@@ -1,32 +1,32 @@
 package com.school.backend.application.usecase;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import com.school.backend.application.port.UserRepository;
-import com.school.backend.domain.exception.BusinessException;
-import com.school.backend.domain.exception.ConflictException;
 import com.school.backend.domain.model.User;
 
 public class CreateUserUseCase {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public CreateUserUseCase(UserRepository userRepository) {
+    public CreateUserUseCase(
+        UserRepository userRepository,
+        PasswordEncoder passwordEncoder
+    ) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
-    public User execute(String name, String email, String role) {
+    public User execute(String name, String email, String password, String role) {
 
-        if (email == null || email.isEmpty()) {
-            throw new BusinessException("Email is required");
-        }
-
-        if (userRepository.existsByEmail(email)) {
-            throw new ConflictException("Email already exists");
-        }
+        String encodedPassword = passwordEncoder.encode(password);
         
         User user = new User(
             null, 
             name,
             email,
+            encodedPassword,
             role
         );
 

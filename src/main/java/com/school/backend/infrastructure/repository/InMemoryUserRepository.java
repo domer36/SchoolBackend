@@ -20,6 +20,7 @@ public class InMemoryUserRepository implements UserRepository {
             idCounter++,
             user.getName(),
             user.getEmail(),
+            user.getPassword(),
             user.getRole()
         );
         users.add(savedUser);
