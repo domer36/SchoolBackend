@@ -1,5 +1,6 @@
 package com.school.backend.infrastructure.controller;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +21,7 @@ public class GroupController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public GroupResponse create(@RequestBody CreateGroupRequest request) {
         GroupEntity group = createGroupUseCase.execute(
             request.getName(),

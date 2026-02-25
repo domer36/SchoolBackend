@@ -2,6 +2,7 @@ package com.school.backend.infrastructure.controller;
 
 import java.util.List;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,6 +26,7 @@ public class StudentController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public StudentResponse create(@RequestBody CreateStudentRequest request) {
         var student = createStudentUseCase.execute(
             request.getName(),

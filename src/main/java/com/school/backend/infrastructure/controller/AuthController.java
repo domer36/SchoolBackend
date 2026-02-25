@@ -2,6 +2,8 @@ package com.school.backend.infrastructure.controller;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,14 +31,21 @@ public class AuthController {
     public String login(@RequestBody LoginRequest request) {
         System.out.println("Login attempt: " + request.getEmail() + " / " + request.getPassword());
         
-        authenticationManager.authenticate(
+        Authentication authentication = authenticationManager.authenticate(
             new UsernamePasswordAuthenticationToken(
                 request.getEmail(), 
-                request.getPassword())
-                
-                );
-                
+                request.getPassword()
+            )
+        );
         
-        return jwtService.generateToken(request.getEmail(), "ADMIN");
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
+        String role = userDetails.getAuthorities()
+            .iterator()
+            .next()
+            .getAuthority()
+            .replace("ROLE_", "");
+        
+        return jwtService.generateToken(request.getEmail(), role);
     }
 }
